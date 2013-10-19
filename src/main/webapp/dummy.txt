@@ -1,0 +1,1 @@
+This folder must be in place for the Jetty Maven plugin to run happily. Git doesn't like empty folders, so I've added this dummy file.

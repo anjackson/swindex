@@ -20,3 +20,22 @@ Related to and complementing NSRL Query
 
 
 
+Running the Solr instance
+-------------------------
+
+If you run
+
+  mvn jetty:run
+
+This will fire up a Solr instance, using the config from ./src/main/solr, storing the data in ./target, visible at:
+
+  http://localhost:8080/
+
+
+Errors
+
+2013-10-19 22:09:14 ERROR SolrCore:119 - null:java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory
+    at org.apache.http.impl.client.AbstractHttpClient.<init>(AbstractHttpClient.java:187)
+    at org.apache.http.impl.client.DefaultHttpClient.<init>(DefaultHttpClient.java:127)
+    at org.apache.http.impl.client.SystemDefaultHttpClient.<init>(SystemDefaultHttpClient.java:113)
+    at org.apache.solr.client.solrj.impl.HttpClientUtil.createClient(HttpClientUtil.java:104)
