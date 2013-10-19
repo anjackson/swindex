@@ -39,6 +39,10 @@ package uk.bl.wa.swindex.nsrl;
  * "Each row has a SHA-1 hash, a tab character, and an ssdeep CSV output. "
  * 
 00000142988AFA836117B1B572FAE4713F200567	768:Cv9oR/2r/2LMZbZosLapUbFx7ECQsWMFvDiu:Cv93r/2LMZ9oLpqjdQsWMFvWu,"008221197"
+ * 
+ * Similarly: Mappings of File SHA-1s to Path/File names exists but is offline.
+ * @see http://www.nsrl.nist.gov/Downloads.htm#paths
+ * 
  * ---
  * 
  * NOTE, no time index. No notion of what year each product turned up.
