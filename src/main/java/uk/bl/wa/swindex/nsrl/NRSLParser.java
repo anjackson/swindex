@@ -60,7 +60,7 @@ public class NRSLParser {
 			long count = 0;
 			String[] line;
 			while ((line = csvr.readNext()) != null)   {
-				printCSVLine(line);
+				//printCSVLine(line);
 				SolrInputDocument doc = new SolrInputDocument();
 				doc.addField("id", line[0]+"_"+count);
 				doc.addField("sha1_s", line[0]);
@@ -74,7 +74,7 @@ public class NRSLParser {
 				solrServer.add(doc);
 				
 				count++;
-				if( count > 100 )
+				if( count >= 1000 )
 					break;
 			}
 		} catch( IOException e ) {
