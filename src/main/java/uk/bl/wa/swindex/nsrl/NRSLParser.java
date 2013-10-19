@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.common.SolrInputDocument;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -25,12 +28,18 @@ import au.com.bytecode.opencsv.CSVReader;
  */
 public class NRSLParser {
 
+	private static String solrUrl = "http://localhost:8080/swindex";
+
 	/**
 	 * 
 	 * @param args
 	 * @throws IOException 
+	 * @throws SolrServerException 
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, SolrServerException {
+		HttpSolrServer solrServer = new HttpSolrServer(solrUrl );
+		
+		// Parse
 		ZipFile zipFile = null;
 		BufferedReader br = null;
 		CSVReader csvr = null;
@@ -52,8 +61,20 @@ public class NRSLParser {
 			String[] line;
 			while ((line = csvr.readNext()) != null)   {
 				printCSVLine(line);
+				SolrInputDocument doc = new SolrInputDocument();
+				doc.addField("id", line[0]+"_"+count);
+				doc.addField("sha1_s", line[0]);
+				doc.addField("md5_s", line[1]);
+				doc.addField("crc32_s", line[2]);
+				doc.addField("file_name_s", line[3]);
+				doc.addField("file_size_tl", line[4]);
+				doc.addField("produce_code_s", line[5]);
+				doc.addField("op_system_code_s", line[6]);
+				doc.addField("special_code_s", line[7]);
+				solrServer.add(doc);
+				
 				count++;
-				if( count > 10 )
+				if( count > 100 )
 					break;
 			}
 		} catch( IOException e ) {
@@ -64,6 +85,8 @@ public class NRSLParser {
 			if( br != null ) br.close();
 			if( zipFile != null) zipFile.close();
 		}
+		// And finally, commit:
+		solrServer.commit();
 	}
 	
 	private static void printCSVLine( String[] line ) {
